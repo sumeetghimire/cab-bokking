@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('vechiles', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('vehicleNumber')->nullable();
+            $table->string('vechileName')->nullable();
             $table->string('model')->nullable();
             $table->string('color')->nullable();
             $table->string('vechileImageUrl')->nullable();

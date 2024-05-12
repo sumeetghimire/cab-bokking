@@ -17,11 +17,17 @@ return new class extends Migration
             $table->foreign('vechilesId')->references('id')->on('vechiles')->onDelete('cascade');
             $table->uuid('driverId')->index()->nullable();
             $table->foreign('driverId')->references('id')->on('users')->onDelete('cascade');
+
             $table->string('pickup')->nullable();
+            $table->foreign('pickup')->references('id')->on('sub_areas')->onDelete('cascade');
+
             $table->string('destination')->nullable();
+            $table->foreign('destination')->references('id')->on('sub_areas')->onDelete('cascade');
+
             $table->time('departureTime')->nullable();
-            $table->time('totalAvailableSeats')->nullable();
-            $table->time('fareAmount')->nullable();
+            $table->date('departureDate')->nullable();
+            $table->integer('totalAvailableSeats')->nullable();
+            $table->integer('fareAmount')->nullable();
             $table->timestamps();
         });
     }
