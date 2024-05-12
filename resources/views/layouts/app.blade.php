@@ -40,7 +40,7 @@
         </div>
         <nav class="mainmenu mobile-menu">
             <ul>
-                <li class="active"><a href="./index.html">Home</a></li>
+                <li class="active"><a href="/">Home</a></li>
                 <li><a href="./cab-view.html">Cab List</a></li>
                 <li><a href="./blog.html">Cancel Ticket</a></li>
                 <li><a href="./about-us.html">About Us</a></li>
