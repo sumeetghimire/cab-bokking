@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="css/stylecustom.css" type="text/css">
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @yield('style')
 </head>

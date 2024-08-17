@@ -30,4 +30,23 @@ class Trip extends Model
         return $this->belongsTo(User::class, 'driverId', 'id');
     }
 
+    public function pickupLocation()
+    {
+        return $this->belongsTo(SubArea::class, 'pickup', 'id');
+    }
+
+    public function destinationLocation()
+    {
+        return $this->belongsTo(SubArea::class, 'destination', 'id');
+    }
+
+    public function pickup()
+    {
+        return $this->pickupLocation ? $this->pickupLocation->subAreaName : null;
+    }
+
+    public function destination()
+    {
+         return $this->destinationLocation ? $this->destinationLocation->subAreaName : null;
+    }
 }

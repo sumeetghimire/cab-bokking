@@ -14,13 +14,14 @@ class SearchController extends Controller
     {
         $pickupLocation = $request->pickupSubLocation;
         $destinationLocation = $request->dropSubLocation;
+        $seatsOpted = $request->seatsOpted;
         $departureDate = date('Y-m-d', strtotime($request->dateofJourney));
         $trips = Trip::where('pickup', $pickupLocation)
                      ->where('destination', $destinationLocation)
                      ->whereDate('departureDate', $departureDate)
                      ->with('vehicle','driver')
                      ->get();
-        return view('search.index', compact('trips'));
+        return view('search.index', compact('trips','seatsOpted'));
 
         // if ($trips->isEmpty()) {
         //     return response()->json([

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\Trip;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,9 +13,9 @@ class BookingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+      
     }
 
     /**
@@ -29,38 +31,42 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        // Extract data from the request
-        $id = $request->input('id');
-        $bookById = $request->input('bookById');
-        $guestBooking = $request->input('guestBooking', false);
-        $guessBookingId = $request->input('guessBookingId');
-        $pickupLocation = $request->input('pickupLocation');
-        $dropLocation = $request->input('dropLocation');
-        $pickupDateTime = $request->input('pickupDateTime');
-        $driverId = $request->input('driverId');
-        $vehicleId = $request->input('vehicleId');
+
+        if (!Auth::check()) {
+            $newData = $request->only('name', 'email', 'phone');
+            $user = User::create($newData);
+        } else {
+            $user = Auth::user();
+            $name = $user->name;
+            $email = $user->email;
+            $phone = $user->phone;
+        }
+        
+        $bookById = $user->id;
+        $tripId = $request->tripIds;
+        $trips = Trip::find( $tripId );
+
+        $pickupLocation =  $trips->pickupLocation;
+        $dropLocation = $trips->dropLocation;
+        $pickupDateTime = $trips->pickupDateTime;
+        $driverId = $trips->driverId;
+        $vehicleId = $trips->vehicleId;
         $estimateCordinatesPickup = $request->input('estimateCordinatesPickup');
         $bookingStatus = $request->input('bookingStatus');
     
-        if (Auth::check()) {
+       
             $booking = new Booking();
-            $booking->id = $id;
             $booking->bookById = $bookById;
-            $booking->guestBooking = $guestBooking;
-            $booking->guessBookingId = $guessBookingId;
             $booking->pickupLocation = $pickupLocation;
             $booking->dropLocation = $dropLocation;
             $booking->pickupDateTime = $pickupDateTime;
             $booking->driverId = $driverId;
             $booking->vehicleId = $vehicleId;
-            $booking->estimateCordinatesPickup = $estimateCordinatesPickup;
-            $booking->bookingStatus = $bookingStatus;
+            $booking->estimateCordinatesPickup = $request->estimateCordinatesPickup;
+            $booking->bookingStatus = 'pending';
             $booking->save();
-        } else {
-            // User is not logged in, handle guest booking storage
-            // Note: Implement your guest booking storage logic here
-        }
-    
+        
+
         return response()->json(['message' => 'Booking created successfully'], 201);
     }
     
