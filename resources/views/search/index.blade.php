@@ -143,10 +143,12 @@
                 <p class="mt-1 price-fall mr-5"><del>Rs 1190.00</del></p>
             </div>
             @if(Auth::check()===false)
-            <div id="bookAsa" class="btn btn-orange mt-4">Book Now</div>
+            <div id="bookAsa" class="btn btn-orange mt-4" data-trip-id="{{ $trip->id }}">Book Now</div>
             @else 
-            <div id="bookAsa" class="btn btn-orange mt-4"><a style="color:white" href="bookingAsLogin">Book Now</a></div>
+            <div  class="btn btn-orange mt-4"><a style="color:white" href="/bookingAsLogin?trip_id={{ $trip->id }}&&seatsOpted={{$seatsOpted}}">Book Now</a></div>
+
             @endif
+
         </div>
     </div>
     @endforeach
@@ -172,6 +174,8 @@
 @section('scripts')
 <script>
 $("#bookAsa").click(function(){
+    var tripId = $(this).data('trip-id');
+    var seatsOpted = {{$seatsOpted}}
     Swal.fire({
         title: "Book as a",
         showDenyButton: true,
@@ -183,9 +187,10 @@ $("#bookAsa").click(function(){
         focusDeny: true
     }).then((result) => {
         if (result.isConfirmed) {
-            window.location.href = "/login";
-        } else if (result.isDenied) {
-            window.location.href = "/guest_booking";
+                    window.location.href = "/login?trip_id=" + tripId + "&&"+ "seatsOpted="+seatsOpted;
+                } else if (result.isDenied) {
+                    window.location.href = "/guestbooking?trip_id=" + tripId + "&&"+ "seatsOpted="+seatsOpted;
+                
         } else {
         }
     });

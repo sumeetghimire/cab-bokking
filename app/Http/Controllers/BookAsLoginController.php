@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
+use App\Models\Trip;
 use Illuminate\Http\Request;
-use Validator;
 
-class LoginController extends Controller
+class BookAsLoginController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $tripId = $request->get('trip_id');
-        return view('auth.login')->with(compact('tripId'));
+        $seatsOpted = $request->seatsOpted; 
+        $tripId = $request->trip_id; 
+        $trips = Trip::find($tripId);
+        return view('selectSeat.index')->with(compact('seatsOpted','tripId','trips'));
     }
 
     /**
@@ -30,31 +31,8 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-        $tripId = $request->get('tripId');
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required|min:6',
-        ]);
-    
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-    
-        $credentials = $request->only('email', 'password');
-    
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            
-            return view('selectSeat.index')->with(compact('tripId'));
-        }
-    
-        return redirect()->back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->withInput();
-
-
+        //
     }
-    
 
     /**
      * Display the specified resource.

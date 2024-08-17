@@ -2,6 +2,7 @@
 
 @section('content')
 @section('style')
+
 <style>
 
 .wrapper{
@@ -97,45 +98,34 @@ input[type="submit"]:hover{
 
 <div class="wrapper" >
     <div class="containers">
-      <a href="" class="fb-login social-login">
-        Login with Facebook
-      </a>
-       <a href="" class="google-login social-login">
-        Login with Google
-      </a>
-      @if ($errors->any())
-      <div class="alert alert-danger">
-          <ul>
-              @foreach ($errors->all() as $error)
-                  <li>{{ $error }}</li>
-              @endforeach
-          </ul>
-      </div>
-  @endif
-
-      <p class="seperator" >-OR-</p>
-      <form action="{{route('login.store')}}" method='post' autocomplete="off" action="">
+      
+      <form action="{{route('guestbooking.store')}}?seatsOpted={{$seatsOpted}}" method='post' autocomplete="off" action="">
         @csrf
         <div class="group">
-          <label for="email">Email:</label>
-          <input required type="email" id="email" name="email">
-        </div>
+            <label for="email">Name:</label>
+            <input required type="name" id="email" name="name" placeholder="Full Name">
+          </div>
+
+          <div class="group">
+            <label for="email">Phone Number:</label>
+            <input required type="text" id="email" name="phone" placeholder="Phone Number">
+          </div>
+
         <div class="group">
-          <label for="password">Password:</label>
-          <input required id="password" type="password" name="password">
+          <label for="email">Email:</label>
+          <input required type="email" id="email" name="email" placeholder="Email (You will recieve Ticket here)">
         </div>
-        <a href="" class="forget-link">Forgot password?</a>
-        <input style="background-color: #FF9800;" type="submit" value="Login" id="submit">
+      
+            <input required type="hidden" value="{{$tripId}}" id="email" name="tripId" placeholder="Trip Id">
+
         <br><br>
-        
-       <span style="margin-top:40px;text-align:center" >Not register yet?</span><br>
-        <button style="margin-top:10px;width:100%" type="submit" id="submit">Sign up here</button>
+        <button style="margin-top:10px;width:100%" type="submit" id="submit">Continue to seat selection</button>
+
       </form>
     </div>
   </div>
 
 
-@section('scripts')
 
-@endsection
+
 @endsection
